@@ -1,0 +1,102 @@
+#include<iostream>
+using namespace std;
+struct tree
+{
+	int data;
+	tree *leftnote;
+	tree *rightnote;
+};
+tree *maketree(int value)
+{
+	tree *node = new tree;
+	node->data = value;
+	node->leftnote = NULL;
+	node->rightnote = NULL;
+	return node;
+}
+tree *insert(tree *nodeptr,int value)
+{
+	if (nodeptr == NULL)
+	{
+		nodeptr = maketree(value);
+	}
+	else if (value > nodeptr->data)
+	{
+		nodeptr = insert(nodeptr->leftnote, value);
+	}
+	else if (value < nodeptr->data)
+	{
+		nodeptr = insert(nodeptr->rightnote, value);
+	}
+	return nodeptr;
+}
+tree *search(tree *nodeptr,int value)
+{
+	if (nodeptr != NULL)
+	{
+		if (value > nodeptr->data)
+		{
+			nodeptr = search(nodeptr->leftnote, value);
+		}
+		else if (value < nodeptr->data)
+		{
+			nodeptr = search(nodeptr->rightnote, value);
+		}
+		return nodeptr;
+	}
+}
+void preeorder(tree *ptr)
+{
+	if (ptr != NULL)
+	{
+		cout << ptr->data << " \n";
+		preeorder(ptr->leftnote);
+		preeorder(ptr->rightnote);
+	}
+}
+void inorder(tree *ptr)
+{
+	if (ptr != NULL)
+	{
+		inorder(ptr->leftnote);
+		cout << ptr->data << " \n";
+		inorder(ptr->rightnote);
+	}
+}
+void postorder(tree *ptr)
+{
+	if (ptr != NULL)
+	{
+		postorder(ptr->leftnote);
+		postorder(ptr->rightnote);
+		cout << ptr->data << " \n";
+	}
+}
+int main()
+{
+	tree *rootptr = NULL;
+	int n, value, item;
+	cout << "Enter number of nodes ";
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> value;
+		rootptr = insert(rootptr, value);
+	}
+	cout << "preorder value....\n ";
+	preeorder(rootptr);
+	cout << "inorder value....\n";
+	inorder(rootptr);
+	cout << "postorder value....\n";
+	postorder(rootptr);
+	cout << "tergate user";
+	cin >> item;
+	tree *itemptr = search(rootptr, value);
+	if (itemptr == NULL)
+	{
+		cout << "item was not found" << endl;
+	}
+	else
+		cout << "item found\n";
+	return 0;
+}
