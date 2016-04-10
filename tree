@@ -20,11 +20,11 @@ tree *insert(tree *nodeptr,int value)
 	{
 		nodeptr = maketree(value);
 	}
-	else if (value > nodeptr->data)
+	else if (value < nodeptr->data)
 	{
 		nodeptr = insert(nodeptr->leftnote, value);
 	}
-	else if (value < nodeptr->data)
+	else if (value > nodeptr->data)
 	{
 		nodeptr = insert(nodeptr->rightnote, value);
 	}
@@ -34,11 +34,11 @@ tree *search(tree *nodeptr,int value)
 {
 	if (nodeptr != NULL)
 	{
-		if (value > nodeptr->data)
+		if (value < nodeptr->data)
 		{
 			nodeptr = search(nodeptr->leftnote, value);
 		}
-		else if (value < nodeptr->data)
+		else if (value > nodeptr->data)
 		{
 			nodeptr = search(nodeptr->rightnote, value);
 		}
@@ -49,7 +49,7 @@ void preeorder(tree *ptr)
 {
 	if (ptr != NULL)
 	{
-		cout << ptr->data << " \n";
+		cout << ptr->data << " ";
 		preeorder(ptr->leftnote);
 		preeorder(ptr->rightnote);
 	}
@@ -59,7 +59,7 @@ void inorder(tree *ptr)
 	if (ptr != NULL)
 	{
 		inorder(ptr->leftnote);
-		cout << ptr->data << " \n";
+		cout << ptr->data << " ";
 		inorder(ptr->rightnote);
 	}
 }
@@ -69,7 +69,7 @@ void postorder(tree *ptr)
 	{
 		postorder(ptr->leftnote);
 		postorder(ptr->rightnote);
-		cout << ptr->data << " \n";
+		cout << ptr->data << " ";
 	}
 }
 int main()
