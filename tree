@@ -3,100 +3,100 @@ using namespace std;
 struct tree
 {
 	int data;
-	tree *leftnote;
-	tree *rightnote;
+	tree *leftnode;
+	tree *rightnode;
 };
-tree *maketree(int value)
+tree *maketree(int x)
 {
-	tree *node = new tree;
-	node->data = value;
-	node->leftnote = NULL;
-	node->rightnote = NULL;
-	return node;
+	tree *newnode = new tree;
+	newnode->data = x;
+	newnode->leftnode = NULL;
+	newnode->rightnode = NULL;
+	return newnode;
 }
-tree *insert(tree *nodeptr,int value)
+tree *insertv(tree *ptr, int value)
 {
-	if (nodeptr == NULL)
+	if (ptr == NULL)
 	{
-		nodeptr = maketree(value);
+		ptr = maketree(value);
 	}
-	else if (value < nodeptr->data)
+	else if (value < ptr->data)
 	{
-		nodeptr = insert(nodeptr->leftnote, value);
+		ptr->leftnode = insertv(ptr->leftnode, value);
 	}
-	else if (value > nodeptr->data)
+	else if (value > ptr->data)
 	{
-		nodeptr = insert(nodeptr->rightnote, value);
+		ptr->rightnode = insertv(ptr->rightnode, value);
 	}
-	return nodeptr;
+	return ptr;
 }
-tree *search(tree *nodeptr,int value)
-{
-	if (nodeptr != NULL)
-	{
-		if (value < nodeptr->data)
-		{
-			nodeptr = search(nodeptr->leftnote, value);
-		}
-		else if (value > nodeptr->data)
-		{
-			nodeptr = search(nodeptr->rightnote, value);
-		}
-		return nodeptr;
-	}
-}
-void preeorder(tree *ptr)
+void preorder(tree *ptr)
 {
 	if (ptr != NULL)
 	{
 		cout << ptr->data << " ";
-		preeorder(ptr->leftnote);
-		preeorder(ptr->rightnote);
+		preorder(ptr->leftnode);
+		preorder(ptr->rightnode);
 	}
 }
 void inorder(tree *ptr)
 {
 	if (ptr != NULL)
 	{
-		inorder(ptr->leftnote);
+		inorder(ptr->leftnode);
 		cout << ptr->data << " ";
-		inorder(ptr->rightnote);
+		inorder(ptr->rightnode);
 	}
 }
 void postorder(tree *ptr)
 {
 	if (ptr != NULL)
 	{
-		postorder(ptr->leftnote);
-		postorder(ptr->rightnote);
+		postorder(ptr->leftnode);
+		postorder(ptr->rightnode);
 		cout << ptr->data << " ";
 	}
 }
+tree *sarch(tree *ptr, int value)
+{
+	if (value < ptr->data)
+	{
+		ptr = sarch(ptr->leftnode, value);
+	}
+	else if (value > ptr->data)
+	{
+		ptr = sarch(ptr->rightnode, value);
+	}
+	return ptr;
+}
 int main()
 {
-	tree *rootptr = NULL;
-	int n, value, item;
-	cout << "Enter number of nodes ";
+	int x, n;
+	cout << "Input The number of nodes";
 	cin >> n;
+	tree *node = NULL;
+	cout << "input the value\n";
 	for (int i = 0; i < n; i++)
 	{
-		cin >> value;
-		rootptr = insert(rootptr, value);
+		cin >> x;
+		node = insertv(node, x);
 	}
-	cout << "preorder value....\n ";
-	preeorder(rootptr);
-	cout << "inorder value....\n";
-	inorder(rootptr);
-	cout << "postorder value....\n";
-	postorder(rootptr);
-	cout << "tergate user";
-	cin >> item;
-	tree *itemptr = search(rootptr, value);
-	if (itemptr == NULL)
+	cout << "preorder\n";
+	preorder(node);
+	cout << endl;
+	cout << "inorder\n";
+	inorder(node);
+	cout << endl;
+	cout << "postorder\n";
+	postorder(node);
+	cout << endl;
+	cout << "tergate user ";
+	cin >> x;
+	tree *temp = sarch(node, x);
+	if (temp == NULL)
 	{
-		cout << "item was not found" << endl;
+		cout << "item not found\n";
 	}
 	else
 		cout << "item found\n";
-	return 0;
 }
